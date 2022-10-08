@@ -25,5 +25,6 @@ USER nextjs
 EXPOSE 3000
 
 ENV PORT 3000
+ENV NEXT_PUBLIC_NEXT_API https://wireless-backend-dev-xiuzo5vrta-df.a.run.app
 
 CMD ["node", "server.js"]
