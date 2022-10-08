@@ -1,11 +1,29 @@
 import { useRouter } from "next/router";
+import { stringify } from "querystring";
+import { useContext } from "react";
+import { instance } from "../lib/AxiosInstance";
+import { UserContext } from "../lib/UserContext";
 import TextForm from "./TextForm";
+import { setCookie } from "cookies-next";
 
 const LoginForm = () => {
   const router = useRouter();
+  const { setUsername, setPassword, setToken } = useContext(UserContext);
   const handleSubmit = (e: any) => {
-    console.log(e.target[0].value, e.target[1].value);
     e.preventDefault();
+    console.log(e.target[0].value, e.target[1].value);
+    const payload: { username: string; password: string } = {
+      username: e.target[0].value,
+      password: e.target[1].value,
+    };
+    instance.post("/auth/login", payload).then((res) => {
+      console.log(res);
+      setUsername(e.target[0].value);
+      setPassword(e.target[1].value);
+      setToken(res.data.data);
+      // setCookie("token", res.data.data);
+      router.push("/floor");
+    });
   };
   return (
     <div className="w-full">
