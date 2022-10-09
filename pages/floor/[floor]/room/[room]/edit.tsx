@@ -28,9 +28,10 @@ const EditPatientData = () => {
   };
   const [data, setData] = useState("");
   const [infusionData, setInfusionData] = useState(
-    infusionHistorys[parseInt(floor as string) - 1][
-      parseInt(room as string) - 1
-    ]
+    infusionHistorys.length &&
+      infusionHistorys[parseInt(floor as string) - 1][
+        parseInt(room as string) - 1
+      ]
       ? infusionHistorys[parseInt(floor as string) - 1][
           parseInt(room as string) - 1
         ][0].dropRate
