@@ -71,128 +71,138 @@ const Floor = () => {
     return data;
   };
   useEffect(() => {
-    axios
-      .get(process.env.NEXT_PUBLIC_NEXT_API + "/floors", {
-        withCredentials: true,
-      })
-      .then(async (res) => {
-        setDataT(res.data.data.floors);
-        setBuildingData(res.data.data.buildingInfo);
-        // const clients = await Promise.all(
-        //   adminGroups.map(async (group) => {
-        //     const list = await teamspeak.serverGroupClientList(group);
-        //     return list;
-        //   })
-        // );
-        const databro = await Promise.all(
-          res.data.data.floors.map(({ id }: { id: number }) => {
-            return instance.get("/floors/" + id.toString()).then((res2) => {
-              return res2.data.data;
-            });
-          })
-        );
-        const databro2 = await Promise.all(
-          databro.map(async (floor: any) => {
-            const databrotmp = await Promise.all(
-              floor.map((room: any) => {
-                return instance
-                  .get("/rooms/" + room.id.toString())
-                  .then((res) => {
-                    return res.data.data;
-                  });
-              })
-            );
-            return databrotmp;
-          })
-        );
-        setData2(tmp2);
+    console.log(
+      floors.length,
+      rooms.length,
+      patients.length,
+      medicalHistorys.length,
+      infusionHistorys.length
+    );
 
-        const databro3 = await Promise.all(
-          databro.map(async (floor: any) => {
-            const databrotmp = await Promise.all(
-              floor.map((room: any) => {
-                return instance
-                  .get("/patients/" + room.id.toString())
-                  .then((res) => {
-                    return res.data.data;
-                  });
-              })
-            );
-            return databrotmp;
-          })
-        );
+    if (
+      !floors.length &&
+      !rooms.length &&
+      !patients.length &&
+      !medicalHistorys.length &&
+      !infusionHistorys.length
+    ) {
+      axios
+        .get(process.env.NEXT_PUBLIC_NEXT_API + "/floors", {
+          withCredentials: true,
+        })
+        .then(async (res) => {
+          setDataT(res.data.data.floors);
+          setBuildingData(res.data.data.buildingInfo);
+          console.log("resdata", res.data.data);
 
-        const databro4 = await Promise.all(
-          databro.map(async (floor: any) => {
-            const databrotmp = await Promise.all(
-              floor.map((room: any) => {
-                return instance
-                  .get("/patients/" + room.id.toString() + "/medical-history")
-                  .then((res) => {
-                    return res.data.data;
-                  });
-              })
-            );
-            return databrotmp;
-          })
-        );
-        const databro5 = await Promise.all(
-          databro.map(async (floor: any) => {
-            const databrotmp = await Promise.all(
-              floor.map((room: any) => {
-                return instance
-                  .get("/patients/" + room.id.toString() + "/infusion-history")
-                  .then((res) => {
-                    return res.data.data;
-                  });
-              })
-            );
-            return databrotmp;
-          })
-        );
-        if (
-          databro.length &&
-          databro2.length &&
-          databro3.length &&
-          databro4.length &&
-          databro5.length
-        ) {
+          // const clients = await Promise.all(
+          //   adminGroups.map(async (group) => {
+          //     const list = await teamspeak.serverGroupClientList(group);
+          //     return list;
+          //   })
+          // );
+          const databro = await Promise.all(
+            res.data.data.floors.map(({ id }: { id: number }) => {
+              return instance.get("/floors/" + id.toString()).then((res2) => {
+                return res2.data.data;
+              });
+            })
+          );
+          const databro2 = await Promise.all(
+            databro.map(async (floor: any) => {
+              const databrotmp = await Promise.all(
+                floor.map((room: any) => {
+                  return instance
+                    .get("/rooms/" + room.id.toString())
+                    .then((res) => {
+                      return res.data.data;
+                    });
+                })
+              );
+              return databrotmp;
+            })
+          );
+          setData2(tmp2);
+
+          const databro3 = await Promise.all(
+            databro.map(async (floor: any) => {
+              const databrotmp = await Promise.all(
+                floor.map((room: any) => {
+                  return instance
+                    .get("/patients/" + room.id.toString())
+                    .then((res) => {
+                      return res.data.data;
+                    });
+                })
+              );
+              return databrotmp;
+            })
+          );
+
+          const databro4 = await Promise.all(
+            databro.map(async (floor: any) => {
+              const databrotmp = await Promise.all(
+                floor.map((room: any) => {
+                  return instance
+                    .get("/patients/" + room.id.toString() + "/medical-history")
+                    .then((res) => {
+                      return res.data.data;
+                    });
+                })
+              );
+              return databrotmp;
+            })
+          );
+          const databro5 = await Promise.all(
+            databro.map(async (floor: any) => {
+              const databrotmp = await Promise.all(
+                floor.map((room: any) => {
+                  return instance
+                    .get(
+                      "/patients/" + room.id.toString() + "/infusion-history"
+                    )
+                    .then((res) => {
+                      return res.data.data;
+                    });
+                })
+              );
+              return databrotmp;
+            })
+          );
+          if (
+            databro.length &&
+            databro2.length &&
+            databro3.length &&
+            databro4.length &&
+            databro5.length
+          ) {
+            setLoading(false);
+          }
+          setFloors(databro);
+          setRooms(databro2);
+          setPatients(databro3);
+          setMedicalHistorys(databro4);
+          setInfusionHistorys(databro5);
+        });
+    } else {
+      axios
+        .get(process.env.NEXT_PUBLIC_NEXT_API + "/floors", {
+          withCredentials: true,
+        })
+        .then((res) => {
+          setDataT(res.data.data.floors);
+          setBuildingData(res.data.data.buildingInfo);
+          console.log("resdata", res.data.data);
           setLoading(false);
-        }
-        setFloors(databro);
-        setRooms(databro2);
-        setPatients(databro3);
-        setMedicalHistorys(databro4);
-        setInfusionHistorys(databro5);
-        // console.log("tmp3", tmp3);
-      });
-
-    // .then(() => {})
-    // .then(() => {
-    //   console.log("nonono", dataT);
-
-    //   dataT.map((floor) => {
-    //     floor.map((room) => {
-    //       instance.get("/rooms/" + room.id.toString()).then((res) => {
-    //         dataT[room.floorId - 1][room.id - 1] = res.data.data;
-    //         console.log(res.data.data, dataT);
-    //       });
-    //     });
-    //     setDataT(dataT);
-    //   });
-    // })
-    // .then(() => {
-    //   dataT.map((floor) => {
-    //     floor.map((room) => {
-    //       instance.get("/patients/" + room.id.toString()).then((res) => {
-    //         dataT[room.floorId - 1][room.id - 1].patient = res.data.data;
-    //         console.log(res.data.data, dataT, "1");
-    //       });
-    //     });
-    //     setDataT(dataT);
-    //   });
-    // })
-  }, []);
+        });
+    }
+  }, [
+    floors.length,
+    rooms.length,
+    patients.length,
+    medicalHistorys.length,
+    infusionHistorys,
+  ]);
   return (
     <>
       {isLoading ? (
@@ -206,7 +216,7 @@ const Floor = () => {
               <div className="py-8 border-[#8157A1]/50 border-2 rounded-xl">
                 <div className="flex place-content-between">
                   <FloorLists floorLists={dataT ? dataT : floorLists} />
-                  <BuildingDescription />
+                  <BuildingDescription buildingData={buildingData} />
                 </div>
               </div>
             </div>

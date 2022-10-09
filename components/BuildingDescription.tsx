@@ -1,4 +1,6 @@
-const BuildingDescription = () => {
+const BuildingDescription = ({ buildingData }: any) => {
+  console.log("build", buildingData);
+
   return (
     <div className="w-[70%] flex place-content-center">
       <div className=" w-[90%] p-10 py-4 border-[#8157A1]/50 border-2 rounded-lg">
@@ -30,15 +32,15 @@ const BuildingDescription = () => {
         <div className="w-[75%]">
           <div className="flex place-content-between">
             <div>เตียงรองรับผู้ป่วยทั้งหมด</div>
-            <div>เตียง</div>
+            <div>{buildingData.total + "  เตียง"}</div>
           </div>
           <div className="flex place-content-between">
             <div>ผู้ป่วยที่ใช้บริการทั้งหมด</div>
-            <div>เตียง</div>
+            <div>{buildingData.reserved + "  เตียง"}</div>
           </div>
           <div className="flex place-content-between">
             <div>เหลือเตียงในการให้บริการทั้งหมด</div>
-            <div>เตียง</div>
+            <div>{buildingData.available + "  เตียง"}</div>
           </div>
         </div>
       </div>
