@@ -21,6 +21,7 @@ const FloorLists = ({ floorLists }: propType) => {
         {floorLists.map(({ id, name }) => {
           return (
             <div
+              key={id}
               className="p-2 "
               onClick={() => {
                 router.push(`/floor/${id}`);

@@ -9,15 +9,21 @@ const TreatmentHistory = ({ medicalHistorys }: any) => {
             <div className="p-2 col-span-2">อาการ</div>
             <div className="p-2">ผู้บันทึก</div>
           </div>
-          {medicalHistorys.map((treatment: any) => {
-            return (
-              <div className="w-full p-4 border-b-2 border-black grid grid-cols-4 rounded-xl">
-                <div className="p-2">{treatment.createdDate}</div>
-                <div className="p-2 col-span-2">{treatment.medicalHistory}</div>
-                <div className="p-2">{treatment.doctor}</div>
-              </div>
-            );
-          })}
+          {medicalHistorys.length &&
+            medicalHistorys.map((treatment: any) => {
+              return (
+                <div
+                  key={treatment.id}
+                  className="w-full p-4 border-b-2 border-black grid grid-cols-4 rounded-xl"
+                >
+                  <div className="p-2">{treatment.createdDate}</div>
+                  <div className="p-2 col-span-2">
+                    {treatment.medicalHistory}
+                  </div>
+                  <div className="p-2">{treatment.doctor}</div>
+                </div>
+              );
+            })}
         </div>
       </div>
     </div>

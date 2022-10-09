@@ -70,9 +70,11 @@ const Room = () => {
                 room={room}
                 floor={floor}
                 patientData={
-                  patients[parseInt(floor as string) - 1][
-                    parseInt(room as string) - 1
-                  ]
+                  patients.length
+                    ? patients[parseInt(floor as string) - 1][
+                        parseInt(room as string) - 1
+                      ]
+                    : { address: { id: "" }, birthDate: "" }
                 }
               />
             </div>
