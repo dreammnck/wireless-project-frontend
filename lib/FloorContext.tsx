@@ -1,4 +1,11 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { instance } from "./AxiosInstance";
 
 interface infusionHistory {
   createdDate: Date;
@@ -49,6 +56,8 @@ interface RoomType {
 }
 
 interface FloorContextType {
+  floordata: any;
+  setFloor: (_: any) => void;
   floors: any;
   setFloors: (_: any) => void;
   rooms: any;
@@ -59,25 +68,49 @@ interface FloorContextType {
   setMedicalHistorys: (_: any) => void;
   infusionHistorys: any;
   setInfusionHistorys: (_: any) => void;
+  count: number;
+  setCount: (_: number) => void;
   revalidate: () => void;
 }
 
 export const FloorContext = createContext({} as FloorContextType);
 const FloorProvider = ({ children }: any) => {
+  const [floordata, setFloor] = useState([] as any);
   const [floors, setFloors] = useState([] as any);
   const [rooms, setRooms] = useState([] as any);
   const [patients, setPatients] = useState([] as any);
   const [medicalHistorys, setMedicalHistorys] = useState([] as any);
   const [infusionHistorys, setInfusionHistorys] = useState([] as any);
-  const [count, setCount] = useState(1200);
-  const revalidate = setInterval(() => {
-    if (count === 0) {
-    }
-    setCount(count - 1);
-  }, 1);
+  const [count, setCount] = useState(Date.now());
+  const [isrevalidate, setIsrevalidate] = useState(false);
+  const revalidate = () => {};
+  //   if (isrevalidate) {
+  //   } else {
+  //     setIsrevalidate(true);
+  //     setInterval(() => {
+  //       console.log(Date.now() - count);
+
+  //       if (Date.now() - count >= 12000) {
+  //         const databro = Promise.all(
+  //           floor.map(({ id }: { id: number }) => {
+  //             return instance.get("/floors/" + id.toString()).then((res2) => {
+  //               return res2.data.data;
+  //             });
+  //           })
+  //         );
+  //         setFloors(databro);
+  //         setCount(Date.now());
+  //         console.log("reset");
+  //       }
+  //     }, 1000);
+  //   }
+  // };
+
   return (
     <FloorContext.Provider
       value={{
+        floordata,
+        setFloor,
         floors,
         setFloors,
         rooms,
@@ -88,6 +121,9 @@ const FloorProvider = ({ children }: any) => {
         setMedicalHistorys,
         infusionHistorys,
         setInfusionHistorys,
+        count,
+        setCount,
+        revalidate,
       }}
     >
       {children}

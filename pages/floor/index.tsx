@@ -12,6 +12,8 @@ import { UserContext } from "../../lib/UserContext";
 const Floor = () => {
   const { token } = useContext(UserContext);
   const {
+    floordata,
+    setFloor,
     floors,
     setFloors,
     rooms,
@@ -22,6 +24,9 @@ const Floor = () => {
     setMedicalHistorys,
     infusionHistorys,
     setInfusionHistorys,
+    count,
+    setCount,
+    revalidate,
   } = useContext(FloorContext);
   const [data, setData] = useState([] as any);
   const [data2, setData2] = useState([] as any);
@@ -69,6 +74,18 @@ const Floor = () => {
       })
     );
     return data;
+  };
+  const [check, setCheck] = useState(0);
+  const callApi = async () => {
+    const databro = await Promise.all(
+      floordata.map(({ id }: { id: number }) => {
+        return instance.get("/floors/" + id.toString()).then((res2) => {
+          return res2.data.data;
+        });
+      })
+    );
+    setFloors(databro);
+    console.log("reset", databro);
   };
   useEffect(() => {
     console.log(
@@ -178,11 +195,30 @@ const Floor = () => {
           ) {
             setLoading(false);
           }
+          setFloor(res.data.data.floors);
           setFloors(databro);
           setRooms(databro2);
           setPatients(databro3);
           setMedicalHistorys(databro4);
           setInfusionHistorys(databro5);
+          // setInterval(() => {
+          //   console.log(Date.now() - count);
+
+          //   if (Date.now() - count >= 12000) {
+          //     const databro = Promise.all(
+          //       floor.map(({ id }: { id: number }) => {
+          //         return instance
+          //           .get("/floors/" + id.toString())
+          //           .then((res2) => {
+          //             return res2.data.data;
+          //           });
+          //       })
+          //     );
+          //     setFloors(databro);
+          //     setCount(Date.now());
+          //     console.log("reset");
+          //   }
+          // }, 1000);
         });
     } else {
       axios
@@ -193,16 +229,17 @@ const Floor = () => {
           setDataT(res.data.data.floors);
           setBuildingData(res.data.data.buildingInfo);
           console.log("resdata", res.data.data);
+
+          const id = setInterval(async () => {
+            await callApi();
+            setCheck(check + 1);
+            console.log("check", check);
+          }, 12000);
           setLoading(false);
+          return () => clearInterval(id);
         });
     }
-  }, [
-    floors.length,
-    rooms.length,
-    patients.length,
-    medicalHistorys.length,
-    infusionHistorys,
-  ]);
+  }, [check]);
   return (
     <>
       {isLoading ? (

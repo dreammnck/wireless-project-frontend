@@ -1,19 +1,34 @@
 import { useRouter } from "next/router";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import HeaderText from "../../../components/HeaderText";
 import TopBar from "../../../components/TopBar";
+import { instance } from "../../../lib/AxiosInstance";
 import { FloorContext } from "../../../lib/FloorContext";
 const RoomLists = () => {
   const router = useRouter();
   const { floor } = router.query;
-  const { rooms } = useContext(FloorContext);
+  const { floordata, rooms, setFloors } = useContext(FloorContext);
+  const [check, setCheck] = useState(0);
+  const callApi = async () => {
+    const databro = await Promise.all(
+      floordata.map(({ id }: { id: number }) => {
+        return instance.get("/floors/" + id.toString()).then((res2) => {
+          return res2.data.data;
+        });
+      })
+    );
+    setFloors(databro);
+    console.log("reset", databro);
+  };
   // const {}
   useEffect(() => {
-    console.log(rooms, "huha", floor);
-    setTimeout(function () {
-      console.log("after");
-    }, 10000);
-  }, []);
+    const id = setInterval(async () => {
+      await callApi();
+      setCheck(check + 1);
+      console.log("check", check);
+    }, 12000);
+    return () => clearInterval(id);
+  }, [check]);
   return (
     <>
       <div>

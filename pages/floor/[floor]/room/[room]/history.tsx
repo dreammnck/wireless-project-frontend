@@ -1,13 +1,37 @@
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import TopBar from "../../../../../components/TopBar";
 import TreatmentHistory from "../../../../../components/TreatmentHistory";
+import { instance } from "../../../../../lib/AxiosInstance";
 import { FloorContext } from "../../../../../lib/FloorContext";
 
 const History = () => {
   const { medicalHistorys } = useContext(FloorContext);
   const router = useRouter();
   const { room, floor } = router.query;
+  const { floordata, setFloors } = useContext(FloorContext);
+  const [check, setCheck] = useState(0);
+  const callApi = async () => {
+    const databro = await Promise.all(
+      floordata.map(({ id }: { id: number }) => {
+        return instance.get("/floors/" + id.toString()).then((res2) => {
+          return res2.data.data;
+        });
+      })
+    );
+    setFloors(databro);
+    console.log("reset", databro);
+  };
+  // const {}
+  useEffect(() => {
+    const id = setInterval(async () => {
+      await callApi();
+      setCheck(check + 1);
+      console.log("check", check);
+    }, 12000);
+    return () => clearInterval(id);
+  }, [check]);
+
   const handleChange = (e: any) => {
     console.log(e);
   };
