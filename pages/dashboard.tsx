@@ -25,9 +25,7 @@ const DashBoard = ({ fallback }: propType) => {
   //   "https://wireless-backend-dev-xiuzo5vrta-df.a.run.app" + "/floors",
   //   fetcher
   // );
-  const data = instance.get(
-    "https://wireless-backend-dev-xiuzo5vrta-df.a.run.app" + "/floors"
-  );
+  const data = instance.get(process.env.NEXT_PUBLIC_NEXT_API + "/floors");
   console.log(data);
   useEffect(() => {
     console.log(data);

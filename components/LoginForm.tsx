@@ -1,10 +1,11 @@
 import { useRouter } from "next/router";
 import { stringify } from "querystring";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { instance } from "../lib/AxiosInstance";
 import { UserContext } from "../lib/UserContext";
 import TextForm from "./TextForm";
 import { setCookie } from "cookies-next";
+import { FloorContext } from "../lib/FloorContext";
 
 const LoginForm = () => {
   const router = useRouter();
