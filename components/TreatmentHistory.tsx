@@ -9,7 +9,8 @@ const TreatmentHistory = ({ medicalHistorys }: any) => {
             <div className="p-2 col-span-2">อาการ</div>
             <div className="p-2">ผู้บันทึก</div>
           </div>
-          {medicalHistorys.length &&
+          {medicalHistorys &&
+            medicalHistorys.length &&
             medicalHistorys.map((treatment: any) => {
               return (
                 <div

@@ -11,7 +11,8 @@ import { FloorContext } from "../../../../../lib/FloorContext";
 const Room = () => {
   const router = useRouter();
   const { room, floor } = router.query;
-  const { floordata, setFloors, patients } = useContext(FloorContext);
+  const { floordata, setFloors, patients, infusionHistorys } =
+    useContext(FloorContext);
   const [check, setCheck] = useState(0);
   const callApi = async () => {
     const databro = await Promise.all(
@@ -25,6 +26,8 @@ const Room = () => {
   };
   // const {}
   useEffect(() => {
+    console.log(infusionHistorys);
+
     const id = setInterval(async () => {
       await callApi();
       setCheck(check + 1);
@@ -72,7 +75,8 @@ const Room = () => {
                 patientData={
                   patients.length
                     ? patients[parseInt(floor as string) - 1][
-                        parseInt(room as string) - 1
+                        (parseInt(room as string) - 1) %
+                          patients[parseInt(floor as string) - 1].length
                       ]
                     : { address: { id: "" }, birthDate: "" }
                 }

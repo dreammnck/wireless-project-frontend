@@ -59,7 +59,7 @@ const History = () => {
             </select>
             <TreatmentHistory
               medicalHistorys={
-                medicalHistorys.length
+                medicalHistorys && medicalHistorys.length
                   ? medicalHistorys[parseInt(floor as string) - 1][
                       parseInt(room as string) - 1
                     ]

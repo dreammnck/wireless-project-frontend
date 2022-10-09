@@ -9,7 +9,8 @@ import { FloorContext } from "../../../../../lib/FloorContext";
 const EditPatientData = () => {
   const router = useRouter();
   const { room, floor } = router.query;
-  const { floordata, setFloors, patients } = useContext(FloorContext);
+  const { floordata, setFloors, patients, infusionHistorys } =
+    useContext(FloorContext);
   const handleSubmit = (e: any) => {
     e.preventDefault();
     instance.post(
@@ -26,7 +27,16 @@ const EditPatientData = () => {
     );
   };
   const [data, setData] = useState("");
-  const [infusionData, setInfusionData] = useState("");
+  const [infusionData, setInfusionData] = useState(
+    infusionHistorys[parseInt(floor as string) - 1][
+      parseInt(room as string) - 1
+    ]
+      ? infusionHistorys[parseInt(floor as string) - 1][
+          parseInt(room as string) - 1
+        ][0].dropRate
+      : 0
+  );
+
   const [check, setCheck] = useState(0);
   const callApi = async () => {
     const databro = await Promise.all(
@@ -40,6 +50,8 @@ const EditPatientData = () => {
   };
   // const {}
   useEffect(() => {
+    console.log(infusionHistorys);
+
     const id = setInterval(async () => {
       await callApi();
       setCheck(check + 1);
