@@ -14,7 +14,7 @@ interface floorType {
 const FloorLists = ({ floorLists }: propType) => {
   const router = useRouter();
   // const { name } = useContext(FloorContext);
-  console.log("user ", floorLists);
+  // console.log("user ", floorLists);
   return (
     <div className="w-[30%] place-content-center flex">
       <div className="w-[80%] py-6 border-[#8157A1]/50 border-2 rounded-lg">

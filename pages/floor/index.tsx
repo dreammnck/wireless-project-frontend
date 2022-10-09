@@ -63,7 +63,6 @@ const Floor = () => {
   //     );
   //     console.log(id, data);
   //   });
-  console.log(data);
   // console.log(error);
   const getFloor = async (res: any) => {
     const data = await Promise.all(
@@ -85,17 +84,8 @@ const Floor = () => {
       })
     );
     setFloors(databro);
-    console.log("reset", databro);
   };
   useEffect(() => {
-    console.log(
-      floors.length,
-      rooms.length,
-      patients.length,
-      medicalHistorys.length,
-      infusionHistorys.length
-    );
-
     if (
       !floors.length &&
       !rooms.length &&
@@ -110,7 +100,6 @@ const Floor = () => {
         .then(async (res) => {
           setDataT(res.data.data.floors);
           setBuildingData(res.data.data.buildingInfo);
-          console.log("resdata", res.data.data);
 
           // const clients = await Promise.all(
           //   adminGroups.map(async (group) => {
@@ -125,6 +114,8 @@ const Floor = () => {
               });
             })
           );
+
+          setFloor(res.data.data.floors);
           const databro2 = await Promise.all(
             databro.map(async (floor: any) => {
               const databrotmp = await Promise.all(
@@ -195,7 +186,6 @@ const Floor = () => {
           ) {
             setLoading(false);
           }
-          setFloor(res.data.data.floors);
           setFloors(databro);
           setRooms(databro2);
           setPatients(databro3);
@@ -228,7 +218,6 @@ const Floor = () => {
         .then((res) => {
           setDataT(res.data.data.floors);
           setBuildingData(res.data.data.buildingInfo);
-          console.log("resdata", res.data.data);
 
           const id = setInterval(async () => {
             await callApi();

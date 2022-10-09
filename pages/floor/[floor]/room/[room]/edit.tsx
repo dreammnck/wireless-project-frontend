@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import TextForm from "../../../../../components/TextForm";
 import TopBar from "../../../../../components/TopBar";
@@ -6,10 +7,26 @@ import { instance } from "../../../../../lib/AxiosInstance";
 import { FloorContext } from "../../../../../lib/FloorContext";
 
 const EditPatientData = () => {
-  const handleSubmit = () => {};
+  const router = useRouter();
+  const { room, floor } = router.query;
+  const { floordata, setFloors, patients } = useContext(FloorContext);
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    instance.post(
+      `/patients/${
+        patients[parseInt(floor as string) - 1][parseInt(room as string) - 1].id
+      }/infusion-history`,
+      { dropRate: parseInt(e.target[1].value) }
+    );
+    instance.post(
+      `/patients/${
+        patients[parseInt(floor as string) - 1][parseInt(room as string) - 1].id
+      }/medical-history`,
+      { medicalHistory: e.target[0].value }
+    );
+  };
   const [data, setData] = useState("");
   const [infusionData, setInfusionData] = useState("");
-  const { floordata, setFloors, patients } = useContext(FloorContext);
   const [check, setCheck] = useState(0);
   const callApi = async () => {
     const databro = await Promise.all(
@@ -20,7 +37,6 @@ const EditPatientData = () => {
       })
     );
     setFloors(databro);
-    console.log("reset", databro);
   };
   // const {}
   useEffect(() => {

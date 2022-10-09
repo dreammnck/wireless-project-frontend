@@ -1,5 +1,5 @@
 const BuildingDescription = ({ buildingData }: any) => {
-  console.log("build", buildingData);
+  // console.log("build", buildingData);
 
   return (
     <div className="w-[70%] flex place-content-center">

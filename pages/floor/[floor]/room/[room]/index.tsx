@@ -22,7 +22,6 @@ const Room = () => {
       })
     );
     setFloors(databro);
-    console.log("reset", databro);
   };
   // const {}
   useEffect(() => {

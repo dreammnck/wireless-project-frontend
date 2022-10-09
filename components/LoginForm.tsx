@@ -12,13 +12,11 @@ const LoginForm = () => {
   const { setUsername, setPassword, setToken } = useContext(UserContext);
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(e.target[0].value, e.target[1].value);
     const payload: { username: string; password: string } = {
       username: e.target[0].value,
       password: e.target[1].value,
     };
     instance.post("/auth/login", payload).then((res) => {
-      console.log(res);
       setUsername(e.target[0].value);
       setPassword(e.target[1].value);
       setToken(res.data.data);

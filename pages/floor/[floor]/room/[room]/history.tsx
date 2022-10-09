@@ -20,7 +20,6 @@ const History = () => {
       })
     );
     setFloors(databro);
-    console.log("reset", databro);
   };
   // const {}
   useEffect(() => {
@@ -33,7 +32,7 @@ const History = () => {
   }, [check]);
 
   const handleChange = (e: any) => {
-    console.log(e);
+    // console.log(e);
   };
   return (
     <>

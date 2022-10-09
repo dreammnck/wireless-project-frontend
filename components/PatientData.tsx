@@ -7,7 +7,6 @@ interface propType {
 }
 const PatientData = ({ room, floor, patientData }: propType) => {
   const router = useRouter();
-  console.log(patientData, "huhaaa");
 
   return (
     <div className="px-10 w-[70%]">
