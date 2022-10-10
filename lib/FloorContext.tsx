@@ -68,9 +68,6 @@ interface FloorContextType {
   setMedicalHistorys: (_: any) => void;
   infusionHistorys: any;
   setInfusionHistorys: (_: any) => void;
-  count: number;
-  setCount: (_: number) => void;
-  revalidate: () => void;
 }
 
 export const FloorContext = createContext({} as FloorContextType);
@@ -81,9 +78,6 @@ const FloorProvider = ({ children }: any) => {
   const [patients, setPatients] = useState([] as any);
   const [medicalHistorys, setMedicalHistorys] = useState([] as any);
   const [infusionHistorys, setInfusionHistorys] = useState([] as any);
-  const [count, setCount] = useState(Date.now());
-  const [isrevalidate, setIsrevalidate] = useState(false);
-  const revalidate = () => {};
   //   if (isrevalidate) {
   //   } else {
   //     setIsrevalidate(true);
@@ -121,9 +115,6 @@ const FloorProvider = ({ children }: any) => {
         setMedicalHistorys,
         infusionHistorys,
         setInfusionHistorys,
-        count,
-        setCount,
-        revalidate,
       }}
     >
       {children}

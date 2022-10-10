@@ -24,9 +24,6 @@ const Floor = () => {
     setMedicalHistorys,
     infusionHistorys,
     setInfusionHistorys,
-    count,
-    setCount,
-    revalidate,
   } = useContext(FloorContext);
   const [data, setData] = useState([] as any);
   const [data2, setData2] = useState([] as any);
