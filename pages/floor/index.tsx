@@ -130,11 +130,13 @@ const Floor = () => {
           setData2(tmp2);
 
           const databro3 = await Promise.all(
-            databro.map(async (floor: any) => {
+            databro2.map(async (floor: any) => {
               const databrotmp = await Promise.all(
                 floor.map((room: any) => {
+                  console.log("bruh", room);
+
                   return instance
-                    .get("/patients/" + room.id.toString())
+                    .get("/patients/" + room.patients.id.toString())
                     .then((res) => {
                       return res.data.data;
                     });
@@ -145,11 +147,15 @@ const Floor = () => {
           );
 
           const databro4 = await Promise.all(
-            databro.map(async (floor: any) => {
+            databro2.map(async (floor: any) => {
               const databrotmp = await Promise.all(
                 floor.map((room: any) => {
                   return instance
-                    .get("/patients/" + room.id.toString() + "/medical-history")
+                    .get(
+                      "/patients/" +
+                        room.patients.id.toString() +
+                        "/medical-history"
+                    )
                     .then((res) => {
                       return res.data.data;
                     });
@@ -159,12 +165,14 @@ const Floor = () => {
             })
           );
           const databro5 = await Promise.all(
-            databro.map(async (floor: any) => {
+            databro2.map(async (floor: any) => {
               const databrotmp = await Promise.all(
                 floor.map((room: any) => {
                   return instance
                     .get(
-                      "/patients/" + room.id.toString() + "/infusion-history"
+                      "/patients/" +
+                        room.patients.id.toString() +
+                        "/infusion-history"
                     )
                     .then((res) => {
                       return res.data.data;

@@ -19,6 +19,7 @@ const History = () => {
         });
       })
     );
+
     setFloors(databro);
   };
   // const {}
@@ -59,7 +60,7 @@ const History = () => {
             </select>
             <TreatmentHistory
               medicalHistorys={
-                medicalHistorys && medicalHistorys.length
+                medicalHistorys.length
                   ? medicalHistorys[parseInt(floor as string) - 1][
                       parseInt(room as string) - 1
                     ]

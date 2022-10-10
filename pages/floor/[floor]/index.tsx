@@ -7,7 +7,7 @@ import { FloorContext } from "../../../lib/FloorContext";
 const RoomLists = () => {
   const router = useRouter();
   const { floor } = router.query;
-  const { floordata, rooms, setFloors } = useContext(FloorContext);
+  const { floordata, floors, rooms, setFloors } = useContext(FloorContext);
   const [check, setCheck] = useState(0);
   const callApi = async () => {
     const databro = await Promise.all(
@@ -17,6 +17,10 @@ const RoomLists = () => {
         });
       })
     );
+    console.log("floor", floors);
+    console.log("data", databro);
+    console.log("romm", rooms);
+
     setFloors(databro);
   };
   // const {}
@@ -37,8 +41,8 @@ const RoomLists = () => {
             <HeaderText header={"A Building"} />
             <div className="py-8 border-[#8157A1]/50 border-2 rounded-xl">
               <div className="grid grid-rows-7 grid-flow-col p-4">
-                {rooms.length &&
-                  rooms[parseInt(floor as string) - 1].map((room: any) => {
+                {floors.length &&
+                  floors[parseInt(floor as string) - 1].map((room: any) => {
                     return (
                       <div
                         key={room.id}
