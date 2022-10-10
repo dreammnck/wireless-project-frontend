@@ -9,19 +9,30 @@ import { FloorContext } from "../../../../../lib/FloorContext";
 const EditPatientData = () => {
   const router = useRouter();
   const { room, floor } = router.query;
-  const { floordata, setFloors, patients, infusionHistorys } =
-    useContext(FloorContext);
+  const {
+    floordata,
+    setFloors,
+    patients,
+    infusionHistorys,
+    setInfusionHistorys,
+  } = useContext(FloorContext);
   const handleSubmit = (e: any) => {
     e.preventDefault();
     instance.post(
       `/patients/${
-        patients[parseInt(floor as string) - 1][parseInt(room as string) - 1].id
+        patients[parseInt(floor as string) - 1][
+          (parseInt(room as string) - 1) %
+            patients[parseInt(floor as string) - 1].length
+        ].id
       }/infusion-history`,
       { dropRate: parseInt(e.target[1].value) }
     );
     instance.post(
       `/patients/${
-        patients[parseInt(floor as string) - 1][parseInt(room as string) - 1].id
+        patients[parseInt(floor as string) - 1][
+          (parseInt(room as string) - 1) %
+            patients[parseInt(floor as string) - 1].length
+        ].id
       }/medical-history`,
       { medicalHistory: e.target[0].value }
     );
@@ -51,6 +62,21 @@ const EditPatientData = () => {
   };
   // const {}
   useEffect(() => {
+    instance
+      .get(
+        "/patients/" +
+          infusionHistorys[parseInt(floor as string) - 1][
+            (parseInt(room as string) - 1) %
+              infusionHistorys[parseInt(floor as string) - 1].length
+          ].id
+      )
+      .then((res2) => {
+        infusionHistorys[parseInt(floor as string) - 1][
+          (parseInt(room as string) - 1) %
+            infusionHistorys[parseInt(floor as string) - 1].length
+        ] = res2.data.data;
+        setInfusionHistorys(infusionHistorys);
+      });
     console.log(infusionHistorys);
 
     const id = setInterval(async () => {

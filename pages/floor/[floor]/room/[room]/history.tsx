@@ -6,10 +6,10 @@ import { instance } from "../../../../../lib/AxiosInstance";
 import { FloorContext } from "../../../../../lib/FloorContext";
 
 const History = () => {
-  const { medicalHistorys } = useContext(FloorContext);
   const router = useRouter();
   const { room, floor } = router.query;
-  const { floordata, setFloors } = useContext(FloorContext);
+  const { floordata, setFloors, medicalHistorys, setMedicalHistorys } =
+    useContext(FloorContext);
   const [check, setCheck] = useState(0);
   const callApi = async () => {
     const databro = await Promise.all(
@@ -24,6 +24,21 @@ const History = () => {
   };
   // const {}
   useEffect(() => {
+    instance
+      .get(
+        "/patients/" +
+          medicalHistorys[parseInt(floor as string) - 1][
+            (parseInt(room as string) - 1) %
+              medicalHistorys[parseInt(floor as string) - 1].length
+          ].id
+      )
+      .then((res2) => {
+        medicalHistorys[parseInt(floor as string) - 1][
+          (parseInt(room as string) - 1) %
+            medicalHistorys[parseInt(floor as string) - 1].length
+        ] = res2.data.data;
+        setMedicalHistorys(medicalHistorys);
+      });
     const id = setInterval(async () => {
       await callApi();
       setCheck(check + 1);
@@ -62,7 +77,8 @@ const History = () => {
               medicalHistorys={
                 medicalHistorys.length
                   ? medicalHistorys[parseInt(floor as string) - 1][
-                      parseInt(room as string) - 1
+                      (parseInt(room as string) - 1) %
+                        medicalHistorys[parseInt(floor as string) - 1].length
                     ]
                   : {}
               }

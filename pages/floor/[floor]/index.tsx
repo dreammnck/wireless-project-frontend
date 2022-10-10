@@ -25,11 +25,16 @@ const RoomLists = () => {
   };
   // const {}
   useEffect(() => {
+    instance.get("/floors/" + floor).then((res2) => {
+      floors[parseInt(floor as string) - 1] = res2.data.data;
+      console.log(floors);
+      setFloors(floors);
+    });
     const id = setInterval(async () => {
       await callApi();
       setCheck(check + 1);
       console.log("check", check);
-    }, 12000);
+    }, 1200000);
     return () => clearInterval(id);
   }, [check]);
   return (
