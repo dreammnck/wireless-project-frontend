@@ -10,7 +10,14 @@ const TopBar = () => {
       <div
         className="p-4 px-10 font-bold text-[20px] border-2 border-[#8157A1] rounded-xl mx-4 text-transparent bg-clip-text bg-gradient-to-r from-[#8157A1] to-[#D27AD3]"
         onClick={() => {
-          router.back();
+          router.push(
+            "/" +
+              router.asPath
+                .split("/")
+                .slice(1, router.asPath.split("/").length === 5 ? -2 : -1)
+                .join("/")
+          );
+          console.log();
         }}
       >
         Go Back
